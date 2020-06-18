@@ -2,11 +2,16 @@ from flask import Flask, render_template
 import logging
 from models import db
 import sys
+from blueprints import admin
 
 app_logger = logging.getLogger('lister')
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://test.db'
+
+
+app.register_blueprint(admin.blueprint, url_prefix='/admin')
+
 db.init_app(app)
 
 @app.route("/")
