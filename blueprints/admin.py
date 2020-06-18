@@ -5,4 +5,4 @@ blueprint = Blueprint('admin', __name__)
 
 @blueprint.route("/")
 def index():
-	return render_template("admin.html")
+	return render_template("web/admin.html")
