@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 import uuid
+from datetime import datetime
 from helpers.guid import HashColumn
 
 
@@ -12,6 +13,10 @@ class Subscription(db.Model):
 	__tablename__ = 'lister_subscriptions'
 	list_id = db.Column(HashColumn(length=32), db.ForeignKey(List.id), primary_key=True)
 	person_id = db.Column(HashColumn(length=32), db.ForeignKey(Person.id), primary_key=True)
+	token = db.Column(HashColumn(length=32), default=get_uuid)
+	date_subscribed = db.Column(db.DateTime, default=datetime.utcnow())
+
+
 class List(db.Model):
 	__tablename__ = "lister_lists"
 	id = db.Column(HashColumn(length=32),
