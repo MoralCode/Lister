@@ -1,8 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import logging
 from models import db
 import sys
 from blueprints import admin
+from validate_email import validate_email_or_fail
+from validate_email.exceptions import DomainBlacklistedError, EmailValidationError
 
 app_logger = logging.getLogger('lister')
 
@@ -19,6 +21,28 @@ def index():
 	return render_template("web/index.html")
 
 
+
+@app.route("/subscribe", methods=['POST'])
+def subscribe():
+	"""
+	receives the form data from the subscription form and triggers the sending of the confirmation email, along with all the database changes that go with it
+	"""
+	# POST parameters: list ID, or multiple list ID's, email address
+	# https://stackoverflow.com/a/28982264
+	try:
+		validate_email_or_fail(email_address=request.form['email'], check_mx=False)
+	except EmailValidationError as e:
+		err_msg = ""
+		if isinstance(e, DomainBlacklistedError):
+			err_msg = "Disposable email addresses are not allowed."
+		else:
+			err_msg = "Invalid Email address. Please try again"
+			
+		return render_template("web/subscribeform.html", error=err_msg, list_id=request.form.get('listid')) #email=email
+
+	#send confirmation email and add to DB
+	
+	return render_template("web/subscribesuccess.html")
 
 @app.route("/embed", methods=['GET'])
 def embed_subscribe():

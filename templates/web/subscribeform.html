@@ -1,8 +1,11 @@
 {% extends "web/base.html" %}
 {% block content %}
 <form action="/subscribe" method="post">
-	<input type="email" name="email" placeholder="Enter your email">
-	<input type="hidden" name="list-id" value="1">
+	<input type="hidden" name="list-id" value="{{ list_id }}">
+	<input type="email" name="email" placeholder="Enter your email" value="{{ email }}" required><br>
+	{% if error %}
+	<span class="error"><strong>Error:</strong> {{ error }} </span><br>
+	{% endif %}
 	<input type="submit" value="Submit">
 </form>
 {% endblock %}
