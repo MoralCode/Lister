@@ -20,7 +20,7 @@ def index():
 
 
 
-if sys.argv[1] == "setup":
+if len(sys.argv) > 1 and sys.argv[1] == "setup":
 # https://stackoverflow.com/a/46541219
 	with app.app_context():
 		db.create_all()
