@@ -20,6 +20,11 @@ def index():
 
 
 
+@app.route("/embed", methods=['GET'])
+def embed_subscribe():
+	return render_template("web/subscribeform.html")
+
+
 if len(sys.argv) > 1 and sys.argv[1] == "setup":
 # https://stackoverflow.com/a/46541219
 	with app.app_context():
