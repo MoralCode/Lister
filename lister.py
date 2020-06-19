@@ -22,11 +22,11 @@ def index():
 
 if sys.argv[1] == "setup":
 # https://stackoverflow.com/a/46541219
-    with app.app_context():
-        db.create_all()
-        db.session.commit()
-        print("Setup Complete.")
-        exit(0)
+	with app.app_context():
+		db.create_all()
+		db.session.commit()
+		print("Setup Complete.")
+		exit(0)
 
 if __name__ == "__main__":
 	app.run()
