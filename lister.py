@@ -67,7 +67,7 @@ def subscribe():
 
 @app.route("/embed", methods=['GET'])
 def embed_subscribe():
-	return render_template("web/subscribeform.html")
+	return render_template("web/subscribeform.html", list_id=request.args.get("listid"))
 
 
 if len(sys.argv) > 1 and sys.argv[1] == "setup":
