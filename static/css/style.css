@@ -1,13 +1,13 @@
+/* only for embed */
 html, body {
 	background-color: whitesmoke;
 }
 
 
-.success {
-	color: limegreen;
+form#lister-subscribe .message.success {
+	color: limegreen; /* success by default*/
 }
 
-.error {
+form#lister-subscribe .message.error {
 	color:red;
-
 }
