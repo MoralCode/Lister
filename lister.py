@@ -1,17 +1,19 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import logging
 from models import db
 import sys
 from blueprints import admin
 from validate_email import validate_email_or_fail
 from validate_email.exceptions import DomainBlacklistedError, EmailValidationError
+from flask_cors import CORS
+from flask.json import jsonify
 
 app_logger = logging.getLogger('lister')
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://test.db'
 
-
+CORS(app, origins="*", send_wildcard=True)
 app.register_blueprint(admin.blueprint, url_prefix='/admin')
 
 db.init_app(app)
@@ -37,12 +39,31 @@ def subscribe():
 			err_msg = "Disposable email addresses are not allowed."
 		else:
 			err_msg = "Invalid Email address. Please try again"
-			
-		return render_template("web/subscribeform.html", error=err_msg, list_id=request.form.get('listid')) #email=email
+
+		if request.args.get("redirect"):
+			return render_template("web/subscribeform.html", error=err_msg, list_id=request.form.get('listid')) #email=email
+		else:
+			data = {
+				"message": err_msg,
+				"list-id": request.form.get('listid')
+			}
+			resp = make_response(jsonify(data), 400)
+			resp.headers['Content-Type'] = 'application/json'
+			return resp
+
 
 	#send confirmation email and add to DB
-	
-	return render_template("web/subscribesuccess.html")
+	if request.args.get("redirect"):
+		return render_template("web/subscribesuccess.html")
+	else:
+		data = {
+			"message": "Check your email to confirm your subscription!",
+			"list-id": request.form.get('listid')
+		}
+		resp = make_response(jsonify(data))
+		resp.headers['Content-Type'] = 'application/json'
+		return resp
+
 
 @app.route("/embed", methods=['GET'])
 def embed_subscribe():
