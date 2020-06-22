@@ -67,6 +67,10 @@ def subscribe():
 
 @app.route("/embed", methods=['GET'])
 def embed_subscribe():
+	"""
+	returns an embeddable form suitable for an iFrame.
+	accepts the URL parameter listid for the id of the list to subscribe the user to
+	"""
 	return render_template("web/subscribeform.html", list_id=request.args.get("listid"))
 
 
