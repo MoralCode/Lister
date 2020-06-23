@@ -7,6 +7,7 @@ from validate_email import validate_email_or_fail
 from validate_email.exceptions import DomainBlacklistedError, EmailValidationError
 from flask_cors import CORS
 from flask.json import jsonify
+from helpers.helpers import make_response_data, respond
 
 app_logger = logging.getLogger('lister')
 
@@ -43,27 +44,20 @@ def subscribe():
 		if request.args.get("redirect"):
 			return render_template("web/subscribeform.html", error=err_msg, list_id=request.form.get('listid')) #email=email
 		else:
-			data = {
-				"message": err_msg,
-				"list-id": request.form.get('listid')
-			}
-			resp = make_response(jsonify(data), 400)
-			resp.headers['Content-Type'] = 'application/json'
-			return resp
+			return respond(
+				make_response_data(err_msg, request.form.get('listid')),
+				code=400)
 
 
 	#send confirmation email and add to DB
 	if request.args.get("redirect"):
 		return render_template("web/subscribesuccess.html")
 	else:
-		data = {
-			"message": "Check your email to confirm your subscription!",
-			"list-id": request.form.get('listid')
-		}
-		resp = make_response(jsonify(data))
-		resp.headers['Content-Type'] = 'application/json'
-		return resp
-
+		return respond(make_response_data(
+					"Check your email to confirm your subscription!",
+					request.form.get('listid')
+					)
+				)
 
 @app.route("/embed", methods=['GET'])
 def embed_subscribe():
