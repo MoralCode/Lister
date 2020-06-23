@@ -1,5 +1,9 @@
 from flask import make_response
 from flask.json import jsonify
+import uuid
+
+def get_uuid():
+	return uuid.uuid4().hex
 
 def respond(data, code=200, content_type='application/json'):
 	

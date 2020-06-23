@@ -1,15 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
-import uuid, os
+import os
 from datetime import datetime
 from helpers.guid import HashColumn
-
+from helpers.helpers import get_uuid
 
 db = SQLAlchemy()
 
 table_prefix = os.getenv("LISTER_TABLE_PREFIX", "lister_")
-
-def get_uuid():
-	return uuid.uuid4().hex
 
 class List(db.Model):
 	__tablename__ = table_prefix+"lists"

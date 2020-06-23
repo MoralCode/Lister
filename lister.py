@@ -7,7 +7,7 @@ from validate_email import validate_email_or_fail
 from validate_email.exceptions import DomainBlacklistedError, EmailValidationError
 from flask_cors import CORS
 from flask.json import jsonify
-from helpers.helpers import make_response_data, respond
+from helpers.helpers import make_response_data, respond, get_uuid
 
 app_logger = logging.getLogger('lister')
 
