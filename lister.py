@@ -11,7 +11,7 @@ from flask.json import jsonify
 app_logger = logging.getLogger('lister')
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 
 CORS(app, origins="*", send_wildcard=True)
 app.register_blueprint(admin.blueprint, url_prefix='/admin')
