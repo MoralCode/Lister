@@ -32,7 +32,7 @@ def subscribe():
 	# POST parameters: list ID, or multiple list ID's, email address
 	# https://stackoverflow.com/a/28982264
 	try:
-		validate_email_or_fail(email_address=request.form['email'], check_mx=False)
+		validate_email_or_fail(email_address=request.form.get('email'), check_mx=False)
 	except EmailValidationError as e:
 		err_msg = ""
 		if isinstance(e, DomainBlacklistedError):
