@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, make_response
 import logging
-from models import db
+from models import List, db
 import sys
 from blueprints import admin
 from validate_email import validate_email_or_fail
@@ -78,6 +78,10 @@ if len(sys.argv) > 1 and sys.argv[1] == "setup":
 # https://stackoverflow.com/a/46541219
 	with app.app_context():
 		db.create_all()
+		if db.query(List).first() is None:
+			testList = List(name="Test List", description="a sample list for testing purposes")
+			print(testList.id)
+			db.session.add(testList)
 		db.session.commit()
 		print("Setup Complete.")
 		exit(0)
