@@ -15,8 +15,8 @@ class List(db.Model):
 	__tablename__ = table_prefix+"lists"
 	id = db.Column(HashColumn(length=32),
 						primary_key=True, default=get_uuid)
-	name = db.Column(db.String(80), unique=True, nullable=False)
-	description = db.Column(db.String(1024), unique=True, nullable=True)
+	name = db.Column(db.String(80), nullable=False)
+	description = db.Column(db.String(1024), nullable=True)
 
 	# def __repr__(self):
 	# 	return '<List %r>' % self.id
