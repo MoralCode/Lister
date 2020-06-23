@@ -80,8 +80,8 @@ if len(sys.argv) > 1 and sys.argv[1] == "setup":
 		db.create_all()
 		if db.query(List).first() is None:
 			testList = List(name="Test List", description="a sample list for testing purposes")
-			print(testList.id)
 			db.session.add(testList)
+			print(testList.id)
 		db.session.commit()
 		print("Setup Complete.")
 		exit(0)
