@@ -27,10 +27,18 @@ class Person(db.Model):
 						primary_key=True, default=get_uuid)
 	# https://stackoverflow.com/a/7717596/
 	email = db.Column(db.String(254), unique=True, nullable=False)
+	# black magic: https://docs.sqlalchemy.org/en/13/orm/join_conditions.html#specifying-alternate-join-conditions
+	# https://stackoverflow.com/a/37445153
 	lists = db.relationship(
 		List,
-		secondary="Subscription",
-		backref="members")
+		# https://stackoverflow.com/a/19261449
+		secondary="lister_subscriptions",#lambda:Subscription.__tablename__,
+		backref="members",
+		primaryjoin="and_(Person.id==Subscription.person_id, "
+                        "Subscription.token.is_(None))",
+		secondaryjoin="and_(List.id==Subscription.list_id, "
+                        "Subscription.token.is_(None))"
+	)
 
 	# def __repr__(self):
 	# 	return '<List %r>' % self.id
