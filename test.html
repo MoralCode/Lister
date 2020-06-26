@@ -1,0 +1,43 @@
+<html>
+<head>
+			<meta charset="UTF-8" />
+
+			<style>
+				.success {
+					color: limegreen;
+				}
+
+				.error {
+					color:red;
+
+				}
+			</style>
+
+</head>
+
+<body>
+	<h1>Sample webpage</h1>
+
+	<iframe src="http://localhost:5000/embed?listid=1" title="MyForm" width="600″ height="400″ scrolling = "no" frameBorder = "0"></iframe>
+
+<p>
+	Bacon ipsum dolor amet tail frankfurter tenderloin, shankle meatloaf drumstick alcatra hamburger salami. Porchetta cow capicola beef ribs tongue leberkas alcatra. Sausage cow turducken, jerky porchetta bresaola turkey landjaeger tri-tip. Biltong venison sausage filet mignon, fatback meatloaf spare ribs. Turkey tongue short loin burgdoggen ham landjaeger. Pork belly brisket drumstick bresaola. Beef ribs hamburger pork belly pastrami, brisket picanha sausage kevin ball tip porchetta tenderloin tail swine alcatra.
+</p>
+
+
+	<form action="http://localhost:5000/subscribe" method="post" id="lister-subscribe">
+		<input type="email" name="email" placeholder="Enter your email" required><br>
+		<input type="hidden" name="list-id" value="1">
+		<noscript>This form uses Javascript to handle errors from the server</noscript>
+		<span class="message"></span>
+		<input type="submit" value="Submit">
+	</form>
+
+<p>
+	Bacon ipsum dolor amet tail frankfurter tenderloin, shankle meatloaf drumstick alcatra hamburger salami. Porchetta cow capicola beef ribs tongue leberkas alcatra. Sausage cow turducken, jerky porchetta bresaola turkey landjaeger tri-tip. Biltong venison sausage filet mignon, fatback meatloaf spare ribs. Turkey tongue short loin burgdoggen ham landjaeger. Pork belly brisket drumstick bresaola. Beef ribs hamburger pork belly pastrami, brisket picanha sausage kevin ball tip porchetta tenderloin tail swine alcatra.
+</p>
+
+	<script src="static/js/script.js"></script>
+
+</body>
+</html>
