@@ -26,16 +26,16 @@ class Person(db.Model):
 	email = db.Column(db.String(254), unique=True, nullable=False)
 	# black magic: https://docs.sqlalchemy.org/en/13/orm/join_conditions.html#specifying-alternate-join-conditions
 	# https://stackoverflow.com/a/37445153
-	lists = db.relationship(
-		List,
-		# https://stackoverflow.com/a/19261449
-		secondary="lister_subscriptions",#lambda:Subscription.__tablename__,
-		backref="members",
-		primaryjoin="and_(Person.id==Subscription.person_id, "
-                        "Subscription.token.is_(None))",
-		secondaryjoin="and_(List.id==Subscription.list_id, "
-                        "Subscription.token.is_(None))"
-	)
+	# lists = db.relationship(
+	# 	List,
+	# 	# https://stackoverflow.com/a/19261449
+	# 	secondary="lister_subscriptions",#lambda:Subscription.__tablename__,
+	# 	backref="members",
+	# 	primaryjoin="and_(Person.id==Subscription.person_id, "
+    #                     "Subscription.token.is_(None))",
+	# 	secondaryjoin="and_(List.id==Subscription.list_id, "
+    #                     "Subscription.token.is_(None))"
+	# )
 
 	# def __repr__(self):
 	# 	return '<List %r>' % self.id
@@ -46,3 +46,6 @@ class Subscription(db.Model):
 	person_id = db.Column(HashColumn(length=32), db.ForeignKey(Person.id), primary_key=True)
 	token = db.Column(HashColumn(length=32), default=get_uuid)
 	date_subscribed = db.Column(db.DateTime, default=datetime.utcnow())
+
+	person = db.relationship(Person, backref="subscriptions")
+	list = db.relationship(List, backref="subscriptions")
