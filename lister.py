@@ -32,6 +32,15 @@ def subscribe():
 	"""
 	# POST parameters: list ID, or multiple list ID's, email address
 	# https://stackoverflow.com/a/28982264
+
+	if request.form.get('email') is None:
+		return respond(make_response_data(
+							"You must enter an email address",
+							request.form.get('listid')
+							),
+						code=400)
+
+
 	try:
 		validate_email_or_fail(email_address=request.form.get('email'), check_mx=False)
 	except EmailValidationError as e:
