@@ -24,6 +24,15 @@ def index():
 	return render_template("web/index.html")
 
 
+@app.route("/confirm", methods=['GET'])
+def confirm():
+	"""
+	handles the confirmation action from the link that was in the users confirmation email and return the success page
+	"""
+	# TODO: get the information from the DB for the confirmation token
+	# request.args.get("token")
+	# TODO: set token to NULL to indicate that the email was verified and return success page
+	return ""
 
 @app.route("/subscribe", methods=['POST'])
 def subscribe():
