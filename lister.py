@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, make_response
 import logging
-from models import List, db
+from models import List, db, Person, Subscription
 import sys
 from blueprints import admin
 from validate_email import validate_email_or_fail
@@ -68,6 +68,34 @@ def subscribe():
 
 
 	#send confirmation email and add to DB
+	# create Person entry if not exists
+	person = Person.query.filter_by(email=request.form.get('email')).first()
+	if person is None:
+		#person doesnt exist, create aand add to DB
+		person = Person(email=request.form.get('email'))
+		db.session.add(person)
+
+	# get list that the user wants to subscribe to
+	list = List.query.filter_by(id=request.form.get('listid')).first()
+	if person is None:
+		return respond(make_response_data(
+			"The list you are trying to subscribe to was not found",
+			request.form.get('listid')), code=404)
+	# generate confirmation code and add the person to the list
+	confirm_code = get_uuid()
+
+	# TODO: create parent, append a child via association
+	# p = Parent()
+	# sub = Subscription(token=confirm_code)
+	# sub.child = list
+	# person.children.append(sub)
+	# list.child_associations.append(Subscription(child=c1))
+
+
+
+	# TODO: generate confirmation link and email from confirmation code
+	# TODO: send confirmation email
+
 	if request.args.get("redirect"):
 		return render_template("web/subscribesuccess.html")
 	else:
